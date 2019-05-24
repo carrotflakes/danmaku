@@ -101,8 +101,8 @@ function* makeEventGenerator() {
     for (const chord of [
       new Chord({degree: 5, third: 0, fifth: 0, seventh: 1}),
       new Chord({degree: 7, third: 0, fifth: 0, seventh: 0}),
-      new Chord({degree: 9, third: 0, fifth: 0, seventh: 0}),
-      new Chord({degree: 9, third: 0, fifth: 0, seventh: 0})]) {
+      new Chord({degree: 9, third: -1, fifth: 0, seventh: 0}),
+      new Chord({degree: 9, third: -1, fifth: 0, seventh: 0})]) {
       yield* combine(function*() {
         yield* pat(i * 2, function*(s, d) {
           yield makeNote(s, d, clip(chord.notes()[0], 48, 59));
