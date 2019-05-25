@@ -21,7 +21,6 @@ export class Enemy4 extends Enemy {
       if ((entity instanceof PlayerBullet) &&
           Math.abs(entity.x - this.x) < 5 &&
           Math.abs(entity.y - this.y) < 5) {
-        this.process.kill();
         entities.splice(entities.indexOf(this), 1);
         global.score += 10;
       }
@@ -49,6 +48,7 @@ export class Enemy4 extends Enemy {
   }
 
   *codeGen() {
+    yield this.autoKill(this.process);
     yield this.setPos(100, 0);
     yield this.moveTo(100, 100, 0.5);
     while (1) {

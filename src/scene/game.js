@@ -2,7 +2,7 @@ import {Scene} from './scene';
 import {global} from '../global';
 import {Player} from '../player';
 import {Enemy} from '../enemy';
-import {Sequence} from '../sequence';
+import {codeGen} from '../sequence';
 import {BGM} from '../bgm';
 
 export class Game extends Scene {
@@ -12,10 +12,10 @@ export class Game extends Scene {
     this.bgm = new BGM();
     this.bgm.play();
 
-    const {entities, width, height} = global;
+    const {entities, width, height, vm} = global;
     entities.length = 0;
     entities.push(new Player({x: width / 2, y: height - 100}));
-    entities.push(new Sequence());
+    this.process = vm.put(codeGen());
 
     global.score = 0;
   }
@@ -29,6 +29,7 @@ export class Game extends Scene {
     // 終了判定
     if (!entities.find(e => e instanceof Player)) {
       this.bgm.stop();
+      this.process.kill();
       this.exit();
     }
   }

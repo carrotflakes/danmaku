@@ -1,5 +1,5 @@
 import {global} from './global';
-import {wait} from './vm';
+import {wait, fork} from './vm';
 
 export class Entity {
   constructor() {
@@ -40,5 +40,16 @@ export class Entity {
     }
     this.x = x;
     this.y = y;
+  }
+
+  // Kill process when entitiy is not exist
+  *autoKill(process) {
+    const self = this;
+    yield fork(function* () {
+      const {entities} = global;
+      while (~entities.indexOf(self))
+        yield wait();
+      process.kill();
+    });
   }
 }

@@ -22,6 +22,7 @@ export class VM {
 export class Process {
   constructor(codeIt) {
     this._callStack = [codeIt];
+    this._frozen = false;
   }
 
   get done() {
@@ -33,6 +34,10 @@ export class Process {
   }
 
   _update(spawn) {
+    if (this._frozen)
+      return;
+
+    let signal = null;
     while (!this.done) {
       const it = this._callStack[this._callStack.length - 1];
       const {value, done} = it.next();
@@ -51,7 +56,12 @@ export class Process {
           spawn(value.codeIt);
           break;
         default:
+          if (signal === value) {
+            this._frozen = true;
+            throw new Error('Unknown signal repeated', value);
+          }
           console.warn('Unknown signal: ', value);
+          signal = value;
           break;
       }
     }
