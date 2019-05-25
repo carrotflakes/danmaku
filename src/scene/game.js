@@ -25,6 +25,12 @@ export class Game extends Scene {
     for (const entity of entities) {
       entity.update();
     }
+    for (let i = 0; i < entities.length; ++i) {
+      if (entities[i]._despawn) {
+        entities.splice(i, 1);
+        i--;
+      }
+    }
 
     // 終了判定
     if (!entities.find(e => e instanceof Player)) {

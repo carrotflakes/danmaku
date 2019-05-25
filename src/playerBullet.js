@@ -17,7 +17,7 @@ export class PlayerBullet extends Entity {
 
     // 画面外判定
     if (this.x < 0 || this.y < 0 || width <= this.x || height <= this.y) {
-      entities.splice(entities.indexOf(this), 1);
+      this.despawn();
     }
   }
 

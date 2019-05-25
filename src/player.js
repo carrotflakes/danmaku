@@ -2,6 +2,7 @@ import {global} from './global';
 import {Entity} from './entity';
 import {Enemy, Bullet} from './enemy';
 import {PlayerBullet} from './playerBullet';
+import * as se from './se';
 
 export class Player extends Entity {
   constructor(opts) {
@@ -19,7 +20,7 @@ export class Player extends Entity {
       if ((entity instanceof Enemy || entity instanceof Bullet) &&
           Math.abs(entity.x - this.x) < 5 &&
           Math.abs(entity.y - this.y) < 5) {
-        entities.splice(entities.indexOf(this), 1);
+        this.despawn();
       }
     }
 
@@ -55,6 +56,7 @@ export class Player extends Entity {
           dx: Math.cos(Math.PI * 1.55) * 5,
           dy: Math.sin(Math.PI * 1.55) * 5
         }));
+        se.playerShot();
         this.bulletCoolTime = 5;
       }
     } else {

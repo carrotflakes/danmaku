@@ -19,7 +19,7 @@ export class Enemy3 extends Enemy {
       if ((entity instanceof PlayerBullet) &&
           Math.abs(entity.x - this.x) < 5 &&
           Math.abs(entity.y - this.y) < 5) {
-        entities.splice(entities.indexOf(this), 1);
+        this.despawn();
         global.score += 10;
       }
     }
@@ -27,7 +27,7 @@ export class Enemy3 extends Enemy {
     // 移動
     this.y += 3;
     if (height < this.y) {
-      entities.splice(entities.indexOf(this), 1);
+      this.despawn();
     }
 
     // 弾を打つ

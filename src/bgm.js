@@ -1,3 +1,5 @@
+import {ac, master} from './audio';
+
 const bufferSize = 1;
 
 export class BGM {
@@ -10,11 +12,6 @@ export class BGM {
     if (this.intervalId !== null) {
       return;
     }
-
-    const ac = new AudioContext();
-    const master = ac.createGain();
-    master.gain.setValueAtTime(0.1, 0);
-    master.connect(ac.destination);
 
     const self = this;
     const acStartTime = ac.currentTime;

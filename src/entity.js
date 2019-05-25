@@ -5,6 +5,7 @@ export class Entity {
   constructor() {
     this.x = 0;
     this.y = 0;
+    this._despawn = false;
   }
 
   update() {
@@ -14,9 +15,7 @@ export class Entity {
   }
 
   despawn() {
-    const {entities} = global;
-    // FIXME
-    entities.splice(entities.indexOf(this), 1);
+    this._despawn = true;
   }
 
   *setPos(x, y) {

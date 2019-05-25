@@ -20,7 +20,7 @@ export class Enemy extends Entity {
       if ((entity instanceof PlayerBullet) &&
           Math.abs(entity.x - this.x) < 5 &&
           Math.abs(entity.y - this.y) < 5) {
-        entities.splice(entities.indexOf(this), 1);
+        this.despawn();
         global.score += 10;
       }
     }
@@ -68,7 +68,7 @@ export class Bullet extends Entity {
 
     // 画面外判定
     if (this.x < 0 || this.y < 0 || width <= this.x || height <= this.y) {
-      entities.splice(entities.indexOf(this), 1);
+      this.despawn();
     }
   }
 
