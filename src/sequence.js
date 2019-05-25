@@ -3,6 +3,7 @@ import {global} from './global';
 import {Enemy} from './enemy';
 import {Enemy2} from './enemy2';
 import {Enemy3} from './enemy3';
+import {Enemy4} from './enemy4';
 
 export class Sequence extends Entity {
   constructor() {
@@ -41,7 +42,7 @@ function *makeSequence() {
   while (true) {
     yield waitForNoEnemy();
     yield sleep(10);
-    entities.push(new Enemy3({
+    entities.push(new Enemy4({
       x: Math.random() * width, y: -10,
     }));
     yield waitForNoEnemy();
