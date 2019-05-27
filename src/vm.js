@@ -10,12 +10,16 @@ export class VM {
   }
 
   update() {
-    const codeIts = [];
-    const spawn = codeIts.push.bind(codeIts);
+    const newProcesses = [];
+    const spawn = codeIt => {
+      const process = new Process(codeIt);
+      newProcesses.push(process);
+      return process;
+    };
     for (const process of this._processes) {
       process._update(spawn);
     }
-    codeIts.forEach(this.put.bind(this));
+    this._processes.push(...newProcesses);
   }
 }
 
@@ -38,9 +42,11 @@ export class Process {
       return;
 
     let signal = null;
+    let returnValue = null;
     while (!this.done) {
       const it = this._callStack[this._callStack.length - 1];
-      const {value, done} = it.next();
+      const {value, done} = it.next(returnValue);
+      returnValue = null;
       if (done) {
         this._callStack.pop();
         continue;
@@ -53,7 +59,7 @@ export class Process {
         case 'WAIT':
           return;
         case 'FORK':
-          spawn(value.codeIt);
+          returnValue = spawn(value.codeIt);
           break;
         default:
           if (signal === value) {

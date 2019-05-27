@@ -23,7 +23,18 @@ global.spawn = entity => (spawnEntities.push(entity), entity);
 setInterval(() => {
   global.scene.update();
   global.vm.update();
+  removeDespawnedEntities();
   global.scene.draw();
   global.entities.push(...spawnEntities);
   spawnEntities.length = 0;
 }, 1000 / 60);
+
+function removeDespawnedEntities() {
+  const entities = global.entities;
+  for (let i = 0; i < entities.length; ++i) {
+    if (entities[i]._despawn) {
+      entities.splice(i, 1);
+      i--;
+    }
+  }
+}

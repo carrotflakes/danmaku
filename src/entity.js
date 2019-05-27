@@ -18,6 +18,10 @@ export class Entity {
     this._despawn = true;
   }
 
+  get exists() {
+    return !this._despawn;
+  }
+
   *setPos(x, y) {
     this.x = x;
     this.y = y;

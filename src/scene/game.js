@@ -6,6 +6,7 @@ import {Enemy} from '../enemy';
 import {Enemy2} from '../enemy2';
 import {Enemy3} from '../enemy3';
 import {Enemy4} from '../enemy4';
+import {Enemy5} from '../enemy5';
 import {StageLogo} from '../stageLogo';
 import {wait, sleep, fork, join} from '../vm';
 
@@ -17,7 +18,7 @@ export class Game extends Scene {
     this.bgm.play();
 
     const {entities, width, height, vm} = global;
-    entities.length = 0;
+    entities.forEach(e => e.despawn());
     entities.push(new Player({x: width / 2, y: height - 100}));
     this.process = vm.put(codeGen());
 
@@ -28,12 +29,6 @@ export class Game extends Scene {
     const {entities} = global;
     for (const entity of entities) {
       entity.update();
-    }
-    for (let i = 0; i < entities.length; ++i) {
-      if (entities[i]._despawn) {
-        entities.splice(i, 1);
-        i--;
-      }
     }
 
     // 終了判定
@@ -90,6 +85,29 @@ export function* codeGen() {
       }));
       yield sleep(0.1);
     }
+    yield waitForNoEnemy();
+    yield sleep(0.1);
+    spawn(new Enemy5(function*(enemy) {
+      yield enemy.autoKill(enemy.process);
+      yield enemy.setPos(100, 0);
+      yield enemy.moveTo(100, 100, 0.5);
+      const shot = yield fork(function*() {
+        while (enemy.exists) {
+          yield enemy.shot(function*(bullet) {
+            yield bullet.setPos(enemy.x, enemy.y);
+            while (1) {
+              bullet.y += 3;
+              yield wait();
+            }
+          });
+          yield sleep(0.1);
+        }
+      });
+      yield enemy.moveTo(300, 100, 2);
+      shot.kill();
+      yield enemy.moveTo(300, height, 1);
+      enemy.despawn();
+    }));
   }
 }
 
