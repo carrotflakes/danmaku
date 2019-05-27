@@ -43,18 +43,18 @@ export class Player extends Entity {
       if (keyboard.a) {
         spawn(new PlayerBullet({
           x: this.x, y: this.y,
-          dx: Math.cos(Math.PI * 1.5) * 5,
-          dy: Math.sin(Math.PI * 1.5) * 5
+          dx: Math.cos(Math.PI * 1.5) * 8,
+          dy: Math.sin(Math.PI * 1.5) * 8
         }));
         spawn(new PlayerBullet({
           x: this.x, y: this.y,
-          dx: Math.cos(Math.PI * 1.45) * 5,
-          dy: Math.sin(Math.PI * 1.45) * 5
+          dx: Math.cos(Math.PI * 1.48) * 8,
+          dy: Math.sin(Math.PI * 1.48) * 8
         }));
         spawn(new PlayerBullet({
           x: this.x, y: this.y,
-          dx: Math.cos(Math.PI * 1.55) * 5,
-          dy: Math.sin(Math.PI * 1.55) * 5
+          dx: Math.cos(Math.PI * 1.52) * 8,
+          dy: Math.sin(Math.PI * 1.52) * 8
         }));
         se.playerShot();
         this.bulletCoolTime = 5;
@@ -66,7 +66,7 @@ export class Player extends Entity {
 
   draw() {
     const {ctx} = global;
-    const size = 20;
+    const size = 10;
     ctx.fillStyle = '#00F';
     ctx.fillRect(this.x - size / 2, this.y - size / 2, size, size);
   }
