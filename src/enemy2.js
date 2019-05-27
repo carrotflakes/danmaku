@@ -14,7 +14,7 @@ export class Enemy2 extends Enemy {
   }
 
   update() {
-    const {entities} = global;
+    const {entities, spawn} = global;
 
     // 当たり判定
     for (const entity of entities) {
@@ -36,7 +36,7 @@ export class Enemy2 extends Enemy {
       const player = entities.find(e => e instanceof Player);
       if (player) {
         const p = -Math.atan2(this.x - player.x, this.y - player.y) - Math.PI / 2;
-        entities.push(new Bullet({
+        spawn(new Bullet({
           x: this.x, y: this.y,
           dx: Math.cos(p) * 5,
           dy: Math.sin(p) * 5

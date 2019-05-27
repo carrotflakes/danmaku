@@ -2,7 +2,7 @@ import {global} from './global';
 import {Enemy, Bullet} from './enemy';
 import {PlayerBullet} from './playerBullet';
 import {Player} from './player';
-import {sleep, fork} from './vm';
+import {wait, sleep, fork} from './vm';
 
 export class Enemy4 extends Enemy {
   constructor(opts) {
@@ -35,14 +35,18 @@ export class Enemy4 extends Enemy {
   }
 
   *shot() {
-    const {entities} = global;
+    const {entities, spawn} = global;
     const player = entities.find(e => e instanceof Player);
     if (player) {
-      const p = -Math.atan2(this.x - player.x, this.y - player.y) - Math.PI / 2;
-      entities.push(new Bullet({
-        x: this.x, y: this.y,
-        dx: Math.cos(p) * 5,
-        dy: Math.sin(p) * 5
+      const angle = angleTo(this, player);
+      const dx = Math.cos(angle) * 5;
+      const dy = Math.sin(angle) * 5;
+      spawn(new Bullet2(this, function*(bullet) {
+        while (1) {
+          bullet.x += dx;
+          bullet.y += dy;
+          yield wait();
+        }
       }));
     }
   }
@@ -56,4 +60,24 @@ export class Enemy4 extends Enemy {
       yield sleep(0.1);
     }
   }
+}
+
+export class Bullet2 extends Bullet {
+  constructor(parent, codeGen) {
+    super({x: parent.x, y: parent.y});
+    this.process = global.vm.put(codeGen(this));
+    global.vm.put(this.autoKill(this.process));
+  }
+
+  update() {
+    const {width, height} = global;
+
+    // 画面外判定
+    if (this.x < 0 || this.y < 0 || width <= this.x || height <= this.y)
+      this.despawn();
+  }
+}
+
+function angleTo(entity1, entity2) {
+  return -Math.atan2(entity1.x - entity2.x, entity1.y - entity2.y) - Math.PI / 2;
 }

@@ -13,7 +13,7 @@ export class Enemy extends Entity {
   }
 
   update() {
-    const {entities} = global;
+    const {entities, spawn} = global;
 
     // 当たり判定
     for (const entity of entities) {
@@ -34,7 +34,7 @@ export class Enemy extends Entity {
     if (10 < this.count) {
       for (let i = 0; i < 16; ++i) {
         const p = i * 2 * Math.PI / 16;
-        entities.push(new Bullet({
+        spawn(new Bullet({
           x: this.x, y: this.y,
           dx: Math.sin(p) * 5,
           dy: Math.cos(p) * 5

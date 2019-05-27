@@ -13,7 +13,7 @@ export class Player extends Entity {
   }
 
   update() {
-    const {entities, keyboard, width, height} = global;
+    const {entities, keyboard, width, height, spawn} = global;
 
     // 当たり判定
     for (const entity of entities) {
@@ -41,17 +41,17 @@ export class Player extends Entity {
 
     if (this.bulletCoolTime === 0) {
       if (keyboard.a) {
-        entities.push(new PlayerBullet({
+        spawn(new PlayerBullet({
           x: this.x, y: this.y,
           dx: Math.cos(Math.PI * 1.5) * 5,
           dy: Math.sin(Math.PI * 1.5) * 5
         }));
-        entities.push(new PlayerBullet({
+        spawn(new PlayerBullet({
           x: this.x, y: this.y,
           dx: Math.cos(Math.PI * 1.45) * 5,
           dy: Math.sin(Math.PI * 1.45) * 5
         }));
-        entities.push(new PlayerBullet({
+        spawn(new PlayerBullet({
           x: this.x, y: this.y,
           dx: Math.cos(Math.PI * 1.55) * 5,
           dy: Math.sin(Math.PI * 1.55) * 5
