@@ -18,7 +18,7 @@ global.score = 0;
 global.bestScore = 0;
 global.scene = new Title();
 global.vm = new VM();
-global.spawn = entity => spawnEntities.push(entity);
+global.spawn = entity => (spawnEntities.push(entity), entity);
 
 setInterval(() => {
   global.scene.update();

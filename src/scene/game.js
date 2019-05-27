@@ -6,6 +6,7 @@ import {Enemy} from '../enemy';
 import {Enemy2} from '../enemy2';
 import {Enemy3} from '../enemy3';
 import {Enemy4} from '../enemy4';
+import {StageLogo} from '../stageLogo';
 import {wait, sleep, fork, join} from '../vm';
 
 export class Game extends Scene {
@@ -61,6 +62,7 @@ export class Game extends Scene {
 
 export function* codeGen() {
   const {spawn, width, height} = global;
+  yield waitToDespawn(spawn(new StageLogo({level: 1})));
   while (true) {
     yield waitForNoEnemy();
     yield sleep(0.1);
@@ -95,5 +97,10 @@ export function* waitForNoEnemy() {
   const {entities} = global;
   yield wait();
   while (entities.find(e => e instanceof Enemy))
+    yield wait();
+}
+
+export function* waitToDespawn(entity) {
+  while (!entity._despawn)
     yield wait();
 }
