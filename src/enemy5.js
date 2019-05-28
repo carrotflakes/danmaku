@@ -3,6 +3,7 @@ import {Enemy, Bullet} from './enemy';
 import {PlayerBullet} from './playerBullet';
 import {Player} from './player';
 import {wait, sleep, fork} from './vm';
+import {enemyDefeated} from './se';
 
 export class Enemy5 extends Enemy {
   constructor(codeGen) {
@@ -21,7 +22,8 @@ export class Enemy5 extends Enemy {
           Math.abs(entity.y - this.y) < 8) {
         entity.despawn();
         this.hp -= 1;
-        if (this.hp <= 0) {
+        if (this.exists && this.hp <= 0) {
+          enemyDefeated();
           this.despawn();
           global.score += 10;
         }

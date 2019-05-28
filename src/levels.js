@@ -66,8 +66,8 @@ export function* level1() {
       yield enemy.moveTo(10, 100, 0.1);
       const shooting = yield fork(function*() {
         while (enemy.exists) {
-          yield enemy.shot(straight({parent: enemy, angle: down, velocity: 6}));
-          yield sleep(0.3);
+          yield enemy.shot(straight({parent: enemy, angle: down, velocity: 4}));
+          yield sleep(0.2);
         }
       });
       yield enemy.moveTo(width - 10, 100, 0.4);
@@ -98,12 +98,15 @@ export function* level1() {
         let angle = 0;
         let dAngle = 0.01;
         while (enemy.exists) {
-          yield enemy.shot(straight({
+          yield shotNway({
+            build: straight,
             parent: enemy,
-            angle: angle += (dAngle += 0.004),
-            velocity: 1.5
-          }));
-          yield sleep(0.01);
+            nway: 3,
+            angle: angle += (dAngle += 0.002),
+            dAngle: Math.PI * 2 / 3,
+            velocity: 1.2
+          });
+          yield sleep(0.02);
         }
       });
       yield sleep(8);

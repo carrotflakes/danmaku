@@ -9,7 +9,7 @@ export class Game extends Scene {
     super();
     this.exit = exit;
     this.bgm = new BGM();
-    this.bgm.play();
+    //this.bgm.play();
 
     const {entities, width, height, vm} = global;
     entities.forEach(e => e.despawn());
@@ -27,7 +27,7 @@ export class Game extends Scene {
 
     // 終了判定
     if (!entities.find(e => e instanceof Player)) {
-      this.bgm.stop();
+      //this.bgm.stop();
       this.process.kill();
       this.exit();
     }

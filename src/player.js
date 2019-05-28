@@ -24,7 +24,7 @@ export class Player extends Entity {
       }
     }
 
-    let velocity = keyboard.shift ? 1 : 3;
+    let velocity = keyboard.shift ? 2 : 6;
     if (keyboard.left) {
       this.x -= velocity;
     }
@@ -44,18 +44,18 @@ export class Player extends Entity {
       if (keyboard.a) {
         spawn(new PlayerBullet({
           x: this.x, y: this.y,
-          dx: Math.cos(Math.PI * 1.5) * 8,
-          dy: Math.sin(Math.PI * 1.5) * 8
+          dx: Math.cos(Math.PI * 1.5) * 10,
+          dy: Math.sin(Math.PI * 1.5) * 10
         }));
         spawn(new PlayerBullet({
           x: this.x, y: this.y,
-          dx: Math.cos(Math.PI * 1.48) * 8,
-          dy: Math.sin(Math.PI * 1.48) * 8
+          dx: Math.cos(Math.PI * 1.51) * 10,
+          dy: Math.sin(Math.PI * 1.51) * 10
         }));
         spawn(new PlayerBullet({
           x: this.x, y: this.y,
-          dx: Math.cos(Math.PI * 1.52) * 8,
-          dy: Math.sin(Math.PI * 1.52) * 8
+          dx: Math.cos(Math.PI * 1.49) * 10,
+          dy: Math.sin(Math.PI * 1.49) * 10
         }));
         se.playerShot();
         this.bulletCoolTime = 5;
