@@ -24,17 +24,18 @@ export class Player extends Entity {
       }
     }
 
+    let velocity = keyboard.shift ? 1 : 3;
     if (keyboard.left) {
-      this.x -= 3;
+      this.x -= velocity;
     }
     if (keyboard.right) {
-      this.x += 3;
+      this.x += velocity;
     }
     if (keyboard.up) {
-      this.y -= 3;
+      this.y -= velocity;
     }
     if (keyboard.down) {
-      this.y += 3;
+      this.y += velocity;
     }
     this.x = clamp(this.x, 10, width - 10);
     this.y = clamp(this.y, 10, height - 10);
