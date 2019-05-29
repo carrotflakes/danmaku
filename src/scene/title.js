@@ -34,7 +34,7 @@ export class Title extends Scene {
 
     ctx.fillStyle = '#000';
     ctx.font = '18px monospace';
-    ctx.fillText('best socre: ' + global.bestScore, 50, 380);
+    ctx.fillText('best score: ' + global.bestScore, 50, 380);
     ctx.fillText('push space to start', 50, 400);
   }
 }

@@ -3,6 +3,7 @@ import {global} from '../global';
 import {Player} from '../player';
 import {BGM} from '../bgm';
 import {level1} from  '../levels';
+import {GameOver} from './gameOver';
 
 export class Game extends Scene {
   constructor(exit) {
@@ -29,7 +30,7 @@ export class Game extends Scene {
     if (!entities.find(e => e instanceof Player)) {
       //this.bgm.stop();
       this.process.kill();
-      this.exit();
+      global.scene = new GameOver(this, this.exit);
     }
   }
 
