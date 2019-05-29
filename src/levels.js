@@ -178,8 +178,8 @@ export function* shotNway(opts) {
   for (let i = 0; i < nway; ++i) {
     yield parent.shot(build({
       ...opts,
-      angle: angle + dAngle * (i - nway / 2),
-      velocity: velocity + (Math.random() * 2 - 1) * (velocityError | 0)
+      angle: angle + dAngle * (i - (nway - 1) / 2),
+      velocity: velocity + (Math.random() * 2 - 1) * (velocityError || 0)
     }));
   }
 }
