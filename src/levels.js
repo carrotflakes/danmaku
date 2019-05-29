@@ -135,7 +135,7 @@ export function* level1() {
         spawnEnemy(enemy2, 300);
         spawnEnemy(enemy3);
         spawnEnemy(enemy4, 200);
-        yield sleep(Math.min(1, interval));
+        yield sleep(Math.max(1, interval));
         interval *= 0.9;
       }
     }
