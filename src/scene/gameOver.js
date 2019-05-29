@@ -1,6 +1,5 @@
 import {Scene} from './scene';
 import {global} from '../global';
-import {BGM} from '../bgm';
 
 export class GameOver extends Scene {
   constructor(game, exit) {
@@ -13,7 +12,7 @@ export class GameOver extends Scene {
 
   update() {
     const {keyboard} = global;
-    if (keyboard.space) {console.log(1)
+    if (keyboard.space) {
       keyboard.space = false;
       this.exit();
       return;

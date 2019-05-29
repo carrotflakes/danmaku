@@ -8,8 +8,6 @@ export function* level1() {
   const {entities, spawn, width, height} = global;
   yield waitToDespawn(spawn(new StageLogo({level: 1})));
   for (let phase = 0; phase < 10; ++phase) {
-    yield waitForNoEnemy();
-    yield sleep(0.1);
     function* enemy1(enemy, x) {
       yield enemy.autoKill(enemy.process);
       yield enemy.setPos(x, 0);
@@ -30,9 +28,9 @@ export function* level1() {
     for (let i = 0; i < phase + 2; ++i) {
       spawnEnemy(enemy1, 100 + 200 * i / (phase + 1));
     }
-
     yield waitForNoEnemy();
     yield sleep(0.1);
+
     function* enemy2(enemy, x) {
       yield enemy.autoKill(enemy.process);
       yield enemy.setPos(x, 0);
@@ -57,9 +55,9 @@ export function* level1() {
       spawnEnemy(enemy2, 50 + 300 * Math.random());
       yield sleep(0.5);
     }
-
     yield waitForNoEnemy();
     yield sleep(0.1);
+
     function* enemy3(enemy) {
       yield enemy.autoKill(enemy.process);
       yield enemy.setPos(0, 100);
@@ -87,26 +85,27 @@ export function* level1() {
       spawnEnemy(enemy3);
       yield sleep(0.1);
     }
-
     yield waitForNoEnemy();
     yield sleep(0.1);
+
     function* enemy4(enemy, x) {
+      enemy.hp = 20; // FIXME
       yield enemy.autoKill(enemy.process);
       yield enemy.setPos(x, 0);
-      yield enemy.moveTo(x, 100, 0.5);
+      yield enemy.moveTo(x, 200, 0.5);
       const shooting = yield fork(function*() {
         let angle = 0;
-        let dAngle = 0.01;
+        let dAngle = 0.03;
         while (enemy.exists) {
           yield shotNway({
             build: straight,
             parent: enemy,
             nway: 3,
-            angle: angle += (dAngle += 0.002),
+            angle: angle += (dAngle += 0.003),
             dAngle: Math.PI * 2 / 3,
-            velocity: 1.2
+            velocity: 1.4
           });
-          yield sleep(0.02);
+          yield sleep(0.03);
         }
       });
       yield sleep(8);
@@ -117,7 +116,7 @@ export function* level1() {
     }
     if (phase < 5)
       spawnEnemy(enemy4, 200);
-    else if (phase < 7) {
+    else if (phase < 8) {
       spawnEnemy(enemy4, 100);
       spawnEnemy(enemy4, 300);
     } else {
@@ -125,6 +124,20 @@ export function* level1() {
       spawnEnemy(enemy4, 300);
       yield sleep(3);
       spawnEnemy(enemy4, 200);
+    }
+    yield waitForNoEnemy();
+    yield sleep(3);
+
+    if (phase === 9) {
+      let interval = 6;
+      while (1) {
+        spawnEnemy(enemy1, 100);
+        spawnEnemy(enemy2, 300);
+        spawnEnemy(enemy3);
+        spawnEnemy(enemy4, 200);
+        yield sleep(Math.min(1, interval));
+        interval *= 0.9;
+      }
     }
   }
 }
