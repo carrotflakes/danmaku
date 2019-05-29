@@ -10,6 +10,7 @@ export class Player extends Entity {
     this.x = opts.x;
     this.y = opts.y;
     this.bulletCoolTime = 0;
+    this.invincible = global.keyboard.dev;
   }
 
   update() {
@@ -20,7 +21,10 @@ export class Player extends Entity {
       if ((entity instanceof Enemy || entity instanceof Bullet) &&
           Math.abs(entity.x - this.x) < 5 &&
           Math.abs(entity.y - this.y) < 5) {
-        this.despawn();
+        if (!this.invincible)
+          this.despawn();
+        else
+          console.log('hit');
       }
     }
 

@@ -6,6 +6,7 @@ export const keys = {
   a: 0,
   space: 0,
   shift: 0,
+  dev: 0,
 };
 const code2key = {
   ArrowLeft: 'left',
@@ -15,6 +16,7 @@ const code2key = {
   KeyZ: 'a',
   Space: 'space',
   ShiftLeft: 'shift',
+  KeyD: 'dev',
 };
 
 window.addEventListener('keydown', e => {
