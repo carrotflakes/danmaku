@@ -7,6 +7,8 @@ export class GameOver extends Scene {
     super();
     this.game = game;
     this.exit = exit;
+
+    global.bestScore = Math.max(global.bestScore, global.score);
   }
 
   update() {
@@ -34,6 +36,9 @@ export class GameOver extends Scene {
 
     ctx.fillStyle = '#000';
     ctx.font = '18px monospace';
-    ctx.fillText('score: ' + global.score, 120, height * 1/2 + 40);
+    ctx.fillText('best score : ' + global.bestScore, 120, height * 1/2 + 40);
+    ctx.fillText('score      : ' + global.score, 120, height * 1/2 + 60);
+
+    ctx.fillText('push space', 120, height * 1/2 + 100);
   }
 }
